@@ -26,7 +26,6 @@ import random
 import requests
 
 from neutron.db import agents_db
-from neutron.db import common_db_mixin
 
 from networking_vsphere._i18n import _, _LE, _LI, _LW
 from networking_vsphere.common import constants as ovsvapp_const
@@ -51,7 +50,7 @@ cfg.CONF.register_opts(OVSVAPP_MONITOR_OPTS, "OVSVAPP")
 
 # DEPRECATED: AgentMonitor is deprecated and will be removed in the next
 # release.
-class AgentMonitor(agents_db.AgentDbMixin, common_db_mixin.CommonDbMixin):
+class AgentMonitor(agents_db.AgentDbMixin):
     """OVSvApp agent monitor class.
 
     Represents agent_monitor class which maintains active and inactive

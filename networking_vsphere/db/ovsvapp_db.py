@@ -16,14 +16,14 @@
 from oslo_log import log
 import sqlalchemy.orm.exc as sa_exc
 
-from neutron.db import common_db_mixin
 from neutron_lib.db import api as db_api
+from neutron_lib.db import model_query as _model_query
 from neutron_lib import exceptions as exc
 
 from networking_vsphere._i18n import _, _LE, _LI, _LW
 from networking_vsphere.db import ovsvapp_models as models
 from networking_vsphere.extensions import ovsvapp_cluster
-from networking_vsphere.extensions import ovsvapp_mitigated_cluster as vapp_mc
+from networking_vsphere.extensions import ovsvapp_mitigated_cluster as omc
 
 LOG = log.getLogger(__name__)
 
@@ -430,8 +430,17 @@ class OVSvAppClusterDbMixin(ovsvapp_cluster.OVSvAppClusterPluginBase):
         return ovsvapp_cluster['ovsvapp_cluster']
 
 
-class OVSvAppMitigatedClusterDbMixin(vapp_mc.OVSvAppMitigatedClusterPluginBase,
-                                     common_db_mixin.CommonDbMixin):
+class OVSvAppMitigatedClusterDbMixin(omc.OVSvAppMitigatedClusterPluginBase):
+
+    @staticmethod
+    def _get_collection_query(context, model,
+                              filters=None, sorts=None,
+                              limit=None, marker_obj=None,
+                              page_reverse=False):
+        return _model_query.get_collection_query(context, model,
+                                                 filters, sorts,
+                                                 limit, marker_obj,
+                                                 page_reverse)
 
     def get_ovsvapp_mitigated_cluster(self, context, vcenter_id, fields=None):
         _admin_check(context, 'GET')

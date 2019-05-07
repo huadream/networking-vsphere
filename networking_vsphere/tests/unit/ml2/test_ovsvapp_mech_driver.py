@@ -122,7 +122,8 @@ class OVSvAppAgentMechanismBaseTestCase(base.AgentMechanismBaseTestCase):
                    'configurations': BAD_CONFIGS,
                    'host': 'bad_host_2'}]
 
-    def setUp(self):
+    @mock.patch('neutron_lib.rpc.Connection.consume_in_threads')
+    def setUp(self, cit):
         super(OVSvAppAgentMechanismBaseTestCase, self).setUp()
         self.driver = ovsvapp_mech_driver.OVSvAppAgentMechanismDriver()
         self.driver._plugin = FakePlugin()

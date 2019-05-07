@@ -38,7 +38,8 @@ CONSTANT_SG_RULE = {'constant rule': 'some_rule'}
 
 class VMwareDVSMechanismDriverTestCase(base.BaseTestCase):
 
-    def setUp(self):
+    @mock.patch('neutron_lib.rpc.get_client')
+    def setUp(self, gc):
         super(VMwareDVSMechanismDriverTestCase, self).setUp()
         self.driver = dvs_mechanism_driver.VMwareDVSMechanismDriver()
         self.driver._bound_ports = set()
