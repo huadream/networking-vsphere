@@ -61,8 +61,8 @@ class VmwareDistributedVirtualSwitch(vmwareapi_fake.ManagedObject):
         super(VmwareDistributedVirtualSwitch, self).__init__(
             "VmwareDistributedVirtualSwitch")
         self.set("uuid", SWITCH_UUID)
-        pg = (vmwareapi_fake.
-              _db_content["DistributedVirtualPortgroup"].values()[0])
+        pg = next(iter(vmwareapi_fake.
+                  _db_content["DistributedVirtualPortgroup"].values()))
         pg_config = pg.config
         pg_config.distributedVirtualSwitch = self.obj
         pg_object = vmwareapi_fake.DataObject()
@@ -400,9 +400,10 @@ class OVSvAppVCDriverTestCase(test.TestCase):
     def test_wait_and_get_portgroup_details_some_network_type(self):
         self.network_info = None
         self._create_vm()
-        vm_ref = vmwareapi_fake._db_content["VirtualMachine"].values()[0]
-        host = vmwareapi_fake._db_content["HostSystem"].values()[0]
-        vss = vmwareapi_fake._db_content["Network"].values()[0]
+        vm_ref = next(
+            iter(vmwareapi_fake._db_content["VirtualMachine"].values()))
+        host = next(iter(vmwareapi_fake._db_content["HostSystem"].values()))
+        vss = next(iter(vmwareapi_fake._db_content["Network"].values()))
         vss._type = "some_Network"
         networks = vmwareapi_fake.DataObject()
         networks.ManagedObjectReference = [vss]
@@ -428,12 +429,13 @@ class OVSvAppVCDriverTestCase(test.TestCase):
         mocked_props = mock.Mock()
         mocked_props.name = "pg2"
         mocked_dvs_props = mock.Mock()
-        vm_ref = vmwareapi_fake._db_content["VirtualMachine"].values()[0]
-        host = vmwareapi_fake._db_content["HostSystem"].values()[0]
-        vss = vmwareapi_fake._db_content["Network"].values()[0]
+        vm_ref = next(iter(
+            vmwareapi_fake._db_content["VirtualMachine"].values()))
+        host = next(iter(vmwareapi_fake._db_content["HostSystem"].values()))
+        vss = next(iter(vmwareapi_fake._db_content["Network"].values()))
         vss._type = "DistributedVirtualPortgroup"
         networks = vmwareapi_fake.DataObject()
-        vss2 = vmwareapi_fake._db_content["Network"].values()[0]
+        vss2 = next(iter(vmwareapi_fake._db_content["Network"].values()))
         vss2._type = "DistributedVirtualPortgroup"
         vss2.set("summary.name", ["pg1", "pg2"])
         networks.ManagedObjectReference = [vss, vss2]
