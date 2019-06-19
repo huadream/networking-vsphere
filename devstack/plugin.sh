@@ -90,9 +90,9 @@ function configure_ovsvapp_compute_driver {
 function start_ovsvapp_agent {
     echo "Starting OVSvApp Agent"
     if [[ $OVSVAPP_MODE =~ "vmware_dvs" ]]; then
-        run_process vmware_dvs-agent "python $OVSVAPP_AGENT_BINARY --config-file $NEUTRON_CONF --config-file /$OVSVAPP_CONF_FILE"
+        run_process vmware_dvs-agent "/usr/bin/python $OVSVAPP_AGENT_BINARY --config-file $NEUTRON_CONF --config-file /$OVSVAPP_CONF_FILE"
     else
-        run_process ovsvapp-agent "python $OVSVAPP_AGENT_BINARY --config-file $NEUTRON_CONF --config-file /$OVSVAPP_CONF_FILE"
+        run_process ovsvapp-agent "/usr/bin/python $OVSVAPP_AGENT_BINARY --config-file $NEUTRON_CONF --config-file /$OVSVAPP_CONF_FILE"
     fi
 }
 
